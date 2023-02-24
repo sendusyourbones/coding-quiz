@@ -1,3 +1,23 @@
+// TIMER
+const timerEl = document.getElementById('timer');
+
+let secondsLeft = 75;
+
+function setTime() {
+    let timerInterval = setInterval(function() {
+        timerEl.textContent = `Time: ${secondsLeft}`;
+        secondsLeft--;
+
+        if(secondsLeft === 0) {
+            clearInterval(timerInterval);
+            // Add what should be executed when time reaches 0
+        }
+    }, 1000);
+}
+
+setTime();
+
+// QUESTIONS
 const questions = [
     {
         question: 'Which option would you use to grab the element with the ID "cats"?',

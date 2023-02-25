@@ -7,6 +7,25 @@
     <title>Timed Coding Quiz</title>
 </head>
 <body>
-    
+    <header>
+        <nav>
+            <!-- Need to add href -->
+            <a href="">View Highscores</a>
+        </nav>
+        <p id="timer">Time: 75</p>
+    </header>
+    <section id="intro">
+        <h1>Coding Quiz Challenge</h1>
+        <p>Try to answer as many questions as possible in 75 seconds. If you answer a question incorrectly, 15 seconds will be deducted from your time remaining. Your final score will be the number of seconds remaining when you reach the end of the quiz.</p>
+        <button id="start">Start Quiz</button>
+    </section>
+    <section id="questions">
+        <legend id="question"></legend>
+        <div id="answers"></div>
+        <p id="question-result"></p>
+    </section>
+    <section id="quiz-end">
+    </section>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>

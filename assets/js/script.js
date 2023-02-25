@@ -27,6 +27,7 @@ const questions = [
             'document.querySelector("#cats");',
             'document.elementSelector("#cats");'
         ],
+        inputName: 'el-by-id',
         correctAnswer: 2
     },
     {
@@ -37,6 +38,7 @@ const questions = [
             'keyup',
             'type'
         ],
+        inputName: 'press-key',
         correctAnswer: 1
     },
     {
@@ -47,6 +49,7 @@ const questions = [
             'minutes',
             'milliseconds',
         ],
+        inputName: 'interval',
         correctAnswer: 3
     },
     {
@@ -57,6 +60,7 @@ const questions = [
             'Arrays begin at index 0',
             'If you try to access an element using an index that does not exist in the array, you will get undefined'
         ],
+        inputName: 'arrays',
         correctAnswer: 0
     },
     {
@@ -67,6 +71,7 @@ const questions = [
             'console.log(dog:name);',
             'console.log(dog>name);'
         ],
+        inputName: 'key-value',
         correctAnswer: 1
     }
 ];
@@ -82,9 +87,12 @@ function showQuestion() {
     for (let i = 0; i < 4; i++) {
         let answerInput = document.createElement('input');
         answerInput.setAttribute('type', 'radio');
+        answerInput.setAttribute('name', questions[questionIndex].inputName);
+        answerInput.setAttribute('id', `option${i}`);
         answersEl.appendChild(answerInput);
         let answerLabel = document.createElement('label');
         answerLabel.textContent = questions[questionIndex].answerOptions[i];
+        answerLabel.setAttribute('for', `option${i}`);
         answersEl.appendChild(answerLabel);
     }
 }

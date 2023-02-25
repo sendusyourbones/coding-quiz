@@ -71,37 +71,53 @@ const questions = [
     }
 ];
 
+// Grab HTML elements for displaying questions, answers, and correct/incorrect
 const questionEl = document.getElementById('question');
 const answersDiv = document.getElementById('answers');
+const questionResult = document.getElementById('question-result');
+
 let questionIndex = 0;
 
-// Build an individual question with answer choices and append to the answers element
-function showQuestion() {
+// Display questions one at a time
+function showQuestions() {
+    // Clear previous answer HTML elements
+    answersDiv.innerHTML = '';
+
+    // Display question
     questionEl.textContent = questions[questionIndex].question;
 
-    for (let i = 0; i < 4; i++) {
+    // Create and append answer HTML elements to the answers div
+    const answerCount = questions[questionIndex].ansOptions.length;
+    for (let i = 0; i < answerCount; i++) {
         let answerInput = document.createElement('input');
         answerInput.setAttribute('type', 'button');
         answerInput.setAttribute('value', questions[questionIndex].ansOptions[i]);
         answersDiv.appendChild(answerInput);
     }
+    
+    // Put all answer options in an array
+    const answerEls = document.querySelectorAll('input');
+    // Set event listener for click on each answer option
+    answerEls.forEach(element => {
+        element.addEventListener("click", function() {
+            // Store chosen answer and correct answer in variables
+            let chosenAns = element.value;
+            let correctAnsIndex = questions[questionIndex].ansIndex;
+            let correctAns = questions[questionIndex].ansOptions[correctAnsIndex];
+            // Compare chosen and correct answers, respond accordingly
+            if (chosenAns === correctAns) {
+                questionResult.textContent = 'Correct!';
+            } else {
+                questionResult.textContent = 'Incorrect :(';
+                secondsLeft -= 15;
+            }
+            if (questionIndex < (questions.length - 1)) {
+                questionIndex++;
+                showQuestions();
+            }
+        });
+    });
 }
 
-showQuestion();
+showQuestions();
 
-// Event listener for selecting an answer option
-const questionResult = document.getElementById('question-result');
-const answerEls = document.querySelectorAll('input');
-
-answerEls.forEach(element => {
-    element.addEventListener("click", function() {
-        let chosenAns = element.value;
-        let correctAnsIndex = questions[questionIndex].ansIndex;
-        let correctAns = questions[questionIndex].ansOptions[correctAnsIndex];
-        if (chosenAns === correctAns) {
-            questionResult.textContent = 'Correct!';
-        } else {
-            questionResult.textContent = 'Incorrect :(';
-        }
-    });
-});

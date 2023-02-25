@@ -130,6 +130,7 @@ function setTime() {
     let timerInterval = setInterval(function() {
         if (score > 0) {
             clearInterval(timerInterval);
+            endQuiz();
         } else if (secondsLeft > 0) {
             secondsLeft--;
         }
@@ -139,6 +140,20 @@ function setTime() {
         if (secondsLeft <= 0) {
             score = 0;
             clearInterval(timerInterval);
+            endQuiz();
         }
     }, 1000);
+}
+
+const questionsSec = document.getElementById('questions');
+const quizEndSec = document.getElementById('quiz-end');
+
+function endQuiz() {
+    questionsSec.innerHTML = '';
+
+    quizEndSec.innerHTML =
+        `<p>All done!</p>
+        <p>Your final score is ${ score }</p>
+        <label for="initials">Enter your initials here:</label>
+        <input type="text" id="initials">`;
 }

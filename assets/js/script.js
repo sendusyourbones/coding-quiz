@@ -1,21 +1,13 @@
-// TIMER
-const timerEl = document.getElementById('timer');
+// Grab HTML elements for intro section and start button
+const introSec = document.getElementById('intro');
+const startEl = document.getElementById('start');
 
-let secondsLeft = 75;
-
-function setTime() {
-    let timerInterval = setInterval(function() {
-        timerEl.textContent = `Time: ${secondsLeft}`;
-        secondsLeft--;
-
-        if(secondsLeft === 0) {
-            clearInterval(timerInterval);
-            // Add what should be executed when time reaches 0
-        }
-    }, 1000);
-}
-
-setTime();
+// When start button is clicked, clear the intro section text, start timer, and show questions
+startEl.addEventListener("click", function() {
+    introSec.innerHTML = '';
+    showQuestions();
+    setTime();
+});
 
 // QUESTIONS
 const questions = [
@@ -77,6 +69,8 @@ const answersDiv = document.getElementById('answers');
 const questionResult = document.getElementById('question-result');
 
 let questionIndex = 0;
+let secondsLeft = 75;
+let score;
 
 // Display questions one at a time
 function showQuestions() {
@@ -94,7 +88,7 @@ function showQuestions() {
         answerInput.setAttribute('value', questions[questionIndex].ansOptions[i]);
         answersDiv.appendChild(answerInput);
     }
-    
+
     // Put all answer options in an array
     const answerEls = document.querySelectorAll('input');
     // Set event listener for click on each answer option
@@ -109,15 +103,42 @@ function showQuestions() {
                 questionResult.textContent = 'Correct!';
             } else {
                 questionResult.textContent = 'Incorrect :(';
-                secondsLeft -= 15;
+
+                // If subtracting 15 sec would mean going below 0, set timer to 0, otherwise subtract 15 sec
+                if (secondsLeft - 15 < 0) {
+                    secondsLeft = 0;
+                } else {
+                    secondsLeft -= 15;
+                }
             }
+
+            // If not on the last question, increase index and show next question, otherwise end quiz
             if (questionIndex < (questions.length - 1)) {
                 questionIndex++;
                 showQuestions();
+            } else {
+                score = secondsLeft;
             }
         });
     });
 }
 
-showQuestions();
+// TIMER
+const timerEl = document.getElementById('timer');
 
+function setTime() {
+    let timerInterval = setInterval(function() {
+        if (score > 0) {
+            clearInterval(timerInterval);
+        } else if (secondsLeft > 0) {
+            secondsLeft--;
+        }
+
+        timerEl.textContent = `Time: ${secondsLeft}`;
+        
+        if (secondsLeft <= 0) {
+            score = 0;
+            clearInterval(timerInterval);
+        }
+    }, 1000);
+}

@@ -70,3 +70,23 @@ const questions = [
         correctAnswer: 1
     }
 ];
+
+const questionEl = document.getElementById('question');
+const answersEl = document.getElementById('answers');
+
+// Build an individual question with answer choices and append to the answers element
+function showQuestion() {
+    let questionIndex = 0;
+    questionEl.textContent = questions[questionIndex].question;
+
+    for (let i = 0; i < 4; i++) {
+        let answerInput = document.createElement('input');
+        answerInput.setAttribute('type', 'radio');
+        answersEl.appendChild(answerInput);
+        let answerLabel = document.createElement('label');
+        answerLabel.textContent = questions[questionIndex].answerOptions[i];
+        answersEl.appendChild(answerLabel);
+    }
+}
+
+showQuestion();

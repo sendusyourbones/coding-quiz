@@ -70,7 +70,7 @@ const questionResult = document.getElementById('question-result');
 
 let questionIndex = 0;
 let secondsLeft = 75;
-let score;
+let score = 0;
 
 // Display questions one at a time
 function showQuestions() {
@@ -103,8 +103,7 @@ function showQuestions() {
                 questionResult.textContent = 'Correct!';
             } else {
                 questionResult.textContent = 'Incorrect :(';
-
-                // If subtracting 15 sec would mean going below 0, set timer to 0, otherwise subtract 15 sec
+                // If wrong, subtract 15 seconds or set timer to 0 if < 15 sec left
                 if (secondsLeft - 15 < 0) {
                     secondsLeft = 0;
                 } else {
@@ -112,7 +111,7 @@ function showQuestions() {
                 }
             }
 
-            // If not on the last question, increase index and show next question, otherwise end quiz
+            // If not on the last question, increase index and show next question, otherwise set score to end quiz
             if (questionIndex < (questions.length - 1)) {
                 questionIndex++;
                 showQuestions();
@@ -124,31 +123,31 @@ function showQuestions() {
 }
 
 // TIMER
+// Grab HTML element for timer
 const timerEl = document.getElementById('timer');
 
 function setTime() {
     let timerInterval = setInterval(function() {
-        if (score > 0) {
-            clearInterval(timerInterval);
-            endQuiz();
-        } else if (secondsLeft > 0) {
+        // If user finished with seconds remaining or time has run out, end the quiz, otherwise decrement timer
+        if (score > 0 || secondsLeft === 0) {
+            endQuiz(timerInterval);
+        } else {
             secondsLeft--;
         }
 
         timerEl.textContent = `Time: ${secondsLeft}`;
-        
-        if (secondsLeft <= 0) {
-            score = 0;
-            clearInterval(timerInterval);
-            endQuiz();
-        }
     }, 1000);
 }
 
+// END QUIZ
+// Grab HTML elements for questions and quiz end sections
 const questionsSec = document.getElementById('questions');
 const quizEndSec = document.getElementById('quiz-end');
 
-function endQuiz() {
+// Stop the timer, clear out questions section, display quiz end section
+function endQuiz(timer) {
+    clearInterval(timer);
+
     questionsSec.innerHTML = '';
 
     quizEndSec.innerHTML =

@@ -1,0 +1,62 @@
+/* General Styles */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+    text-align: center;
+    width: 65%;
+    margin: 0 auto;
+}
+
+p {
+    font-size: 1.5rem;
+}
+
+/* Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+header a {
+    font-size: 1.5rem;
+}
+
+/* Questions & Answers */
+
+#question {
+    font-size: 1.5rem;
+    height: 4rem;
+    margin: auto;
+}
+
+#answers {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    max-width: 100%;
+    margin: auto;
+}
+
+#answers input {
+    padding: 10px;
+    margin: 10px;
+    font-size: 1.2rem;
+    background-color: #1d4a91;
+    color: white;
+    white-space: normal;
+}
+
+#answers input:hover {
+    cursor: grab;
+    background-color: #4168a6;
+}
+
+#question-result {
+    font-size: 1.2rem;
+}

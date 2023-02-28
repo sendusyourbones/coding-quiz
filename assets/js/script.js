@@ -83,43 +83,47 @@ function showQuestions() {
     // Create and append answer HTML elements to the answers div
     const answerCount = questions[questionIndex].ansOptions.length;
     for (let i = 0; i < answerCount; i++) {
-        let answerInput = document.createElement('input');
-        answerInput.setAttribute('type', 'button');
-        answerInput.setAttribute('value', questions[questionIndex].ansOptions[i]);
-        answersDiv.appendChild(answerInput);
+        let answerEl = document.createElement('p');
+        answerEl.textContent = questions[questionIndex].ansOptions[i];
+        answerEl.setAttribute('data-answer', i);
+        answerEl.setAttribute('class', 'answer');
+        answersDiv.appendChild(answerEl);
     }
 
-    // Put all answer options in an array
-    const answerEls = document.querySelectorAll('input');
-    // Set event listener for click on each answer option
-    answerEls.forEach(element => {
-        element.addEventListener("click", function() {
-            // Store chosen answer and correct answer in variables
-            let chosenAns = element.value;
-            let correctAnsIndex = questions[questionIndex].ansIndex;
-            let correctAns = questions[questionIndex].ansOptions[correctAnsIndex];
-            // Compare chosen and correct answers, respond accordingly
-            if (chosenAns === correctAns) {
-                questionResult.textContent = 'Correct!';
-            } else {
-                questionResult.textContent = 'Incorrect :(';
-                // If wrong, subtract 15 seconds or set timer to 0 if < 15 sec left
-                if (secondsLeft - 15 < 0) {
-                    secondsLeft = 0;
-                } else {
-                    secondsLeft -= 15;
-                }
-            }
+    answersDiv.addEventListener('click', checkAnswer);
+}
 
-            // If not on the last question, increase index and show next question, otherwise set score to end quiz
-            if (questionIndex < (questions.length - 1)) {
-                questionIndex++;
-                showQuestions();
+// Check whether chosen answer is correct, update time accordingly, progress to next question
+function checkAnswer(event) {
+    // Create variable for the element the user clicked
+    let clickedEl = event.target;
+
+    // If user clicked on an element with class "answer"
+    if (clickedEl.matches('.answer')) {
+        // Store chosen answer and correct answer in variables
+        let correctAns = questions[questionIndex].ansIndex;
+        let chosenAns = parseInt(clickedEl.getAttribute('data-answer'));
+        // Compare chosen and correct answers, respond accordingly
+        if (chosenAns === correctAns) {
+            questionResult.textContent = 'Correct!';
+        } else {
+            questionResult.textContent = 'Incorrect :(';
+            // If wrong, subtract 15 seconds or set timer to 0 if < 15 sec left
+            if (secondsLeft - 15 < 0) {
+                secondsLeft = 0;
             } else {
-                score = secondsLeft;
+                secondsLeft -= 15;
             }
-        });
-    });
+        }
+
+        // If not on last question, increase index and show next question, otherwise set score to end quiz
+        if (questionIndex < (questions.length - 1)) {
+            questionIndex++;
+            showQuestions();
+        } else {
+            score = secondsLeft;
+        }
+    }
 }
 
 // TIMER

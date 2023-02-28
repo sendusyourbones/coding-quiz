@@ -43,7 +43,7 @@ header a {
     margin: auto;
 }
 
-#answers input {
+#answers p {
     padding: 10px;
     margin: 10px;
     font-size: 1.2rem;
@@ -52,7 +52,7 @@ header a {
     white-space: normal;
 }
 
-#answers input:hover {
+#answers p:hover {
     cursor: grab;
     background-color: #4168a6;
 }

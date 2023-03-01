@@ -158,5 +158,50 @@ function endQuiz(timer) {
         `<p>All done!</p>
         <p>Your final score is ${ score }</p>
         <label for="initials">Enter your initials here:</label>
-        <input type="text" id="initials">`;
+        <input type="text" id="initials">
+        <button class="submit">Submit</button>`;
+
+    storeScore();
+}
+
+// STORE SCORES
+function storeScore() {
+    // Grab the submit button HTML element
+    const submitButton = document.querySelector('.submit');
+
+    // Get high scores from local storage and parse the object
+    let highScores = JSON.parse(localStorage.getItem('highScores'));
+
+    // If there are no high scores in storage, create an empty array to store them
+    if (!highScores) {
+        highScores = [];
+    }
+
+    // When submit button is clicked
+    submitButton.addEventListener('click', function() {
+        // Grab the initials entered
+        let initials = document.querySelector("#initials").value;
+
+        // Create an object with the initials and score
+        const highScore = {
+            initials: initials,
+            score: score
+        }
+
+        // If there are no high scores yet, push object to the array
+        if (highScores.length === 0) {
+            highScores.push(highScore);
+        // Otherwise compare the score to each score already entered, insert so scores are in descending order
+        } else {
+            for (let i = 0; i < highScores.length; i++) {
+                if (score > highScores[i].score) {
+                    highScores.splice(i, 0, highScore);
+                    break;
+                }
+            }
+        }
+
+        // Stringify new high scores array and put in local storage
+        localStorage.setItem('highScores', JSON.stringify(highScores));
+    });
 }

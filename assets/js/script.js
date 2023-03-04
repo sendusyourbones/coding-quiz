@@ -224,15 +224,34 @@ function showScores() {
     scoresSec.innerHTML =
         `<h1>High Scores</h1>
         <ol id='scores-list'></ol>
-        <button>Go Back</button>
-        <button>Clear Scores</button>`
+        <button id="back">Go Back</button>
+        <button id="clear">Clear Scores</button>`
 
-    // Grab HTML element for ordered list and insert scores list
-    const scoresList = document.getElementById('scores-list');
+    // If there are high scores stored, grab HTML element for ordered list and insert scores list
+    if (highScores) {
+        const scoresList = document.getElementById('scores-list');
 
-    highScores.forEach(element => {
-        const scoreEntry = document.createElement('li');
-        scoreEntry.textContent = `${ element.initials } - ${ element.score }`;
-        scoresList.appendChild(scoreEntry);
+        highScores.forEach(element => {
+            const scoreEntry = document.createElement('li');
+            scoreEntry.textContent = `${ element.initials } - ${ element.score }`;
+            scoresList.appendChild(scoreEntry);
+        });
+    }
+    
+    // Grab back button and refresh window when clicked
+    const backButton = document.getElementById('back');
+
+    backButton.addEventListener('click', function() {
+        location.reload();
     });
+
+    // Grab clear button and clear scores when clicked
+    const clearButton = document.getElementById('clear');
+
+    clearButton.addEventListener('click', clearScores);
+}
+
+function clearScores() {
+    localStorage.clear();
+    showScores();
 }

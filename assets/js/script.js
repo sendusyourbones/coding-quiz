@@ -197,6 +197,9 @@ function storeScore() {
                 if (score > highScores[i].score) {
                     highScores.splice(i, 0, highScore);
                     break;
+                } else if (i === (highScores.length - 1)) {
+                    highScores.push(highScore);
+                    break;
                 }
             }
         }

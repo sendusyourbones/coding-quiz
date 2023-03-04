@@ -215,7 +215,9 @@ function showScores() {
     // Get high scores from local storage and parse the object
     let highScores = JSON.parse(localStorage.getItem('highScores'));
 
-    // Clear out quiz end text
+    // Clear out all possible text
+    introSec.innerHTML = '';
+    questionsSec.innerHTML = '';
     quizEndSec.innerHTML = '';
     
     // Grab HTML section for high scores and insert HTML element skeleton
@@ -255,3 +257,8 @@ function clearScores() {
     localStorage.clear();
     showScores();
 }
+
+// Grab view scores in nav and show scores when clicked
+const scoreLink = document.getElementById('view-scores');
+
+scoreLink.addEventListener('click', showScores);

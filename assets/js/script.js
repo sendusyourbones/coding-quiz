@@ -206,5 +206,33 @@ function storeScore() {
 
         // Stringify new high scores array and put in local storage
         localStorage.setItem('highScores', JSON.stringify(highScores));
+        showScores();
+    });
+}
+
+// SHOW SCORES
+function showScores() {
+    // Get high scores from local storage and parse the object
+    let highScores = JSON.parse(localStorage.getItem('highScores'));
+
+    // Clear out quiz end text
+    quizEndSec.innerHTML = '';
+    
+    // Grab HTML section for high scores and insert HTML element skeleton
+    const scoresSec = document.getElementById('high-scores');
+
+    scoresSec.innerHTML =
+        `<h1>High Scores</h1>
+        <ol id='scores-list'></ol>
+        <button>Go Back</button>
+        <button>Clear Scores</button>`
+
+    // Grab HTML element for ordered list and insert scores list
+    const scoresList = document.getElementById('scores-list');
+
+    highScores.forEach(element => {
+        const scoreEntry = document.createElement('li');
+        scoreEntry.textContent = `${ element.initials } - ${ element.score }`;
+        scoresList.appendChild(scoreEntry);
     });
 }

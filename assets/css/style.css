@@ -14,26 +14,42 @@ p {
     font-size: 1.5rem;
 }
 
+ol {
+    width: 50%;
+    margin: 5% auto;
+    list-style-position: inside;
+    padding: 0;
+}
+
+li {
+    padding: 2%;
+}
+
 /* Header */
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
 }
 
-header a {
-    font-size: 1.5rem;
+header p {
+    margin: 20px;
 }
 
-/* Questions & Answers */
-
-#question {
-    font-size: 1.5rem;
-    height: 4rem;
-    margin: auto;
+nav p {
+    color: var(--dark-blue);
+    text-decoration: underline;
+    padding: 5px;
 }
+
+nav p:hover {
+    cursor: grab;
+    color: white;
+    background-color: var(--dark-blue);
+}
+
+/* Answers */
 
 #answers {
     display: flex;
@@ -47,16 +63,49 @@ header a {
     padding: 10px;
     margin: 10px;
     font-size: 1.2rem;
-    background-color: #1d4a91;
+    background-color: var(--dark-green);
     color: white;
     white-space: normal;
 }
 
 #answers p:hover {
     cursor: grab;
-    background-color: #4168a6;
+    background-color: var(--light-green);
 }
 
 #question-result {
     font-size: 1.2rem;
+}
+
+/* High Scores */
+
+#initials {
+    margin: 3%;
+}
+
+li:nth-child(odd) {
+    background-color: var(--purple);
+}
+
+li:nth-child(even) {
+    background-color: var(--light-blue);
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 520px) {
+    main {
+        width: 100%;
+    }
+    p {
+        font-size: 1.2rem;
+        margin: 3%;
+    }
+    #answers p {
+        font-size: 1rem;
+    }
+    #initials, #submit {
+        display: block;
+        margin: 5% auto;
+    }
 }

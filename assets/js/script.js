@@ -1,13 +1,19 @@
-// Grab HTML elements for intro section and start button
+// Variables for HTML elements
 const introSec = document.getElementById('intro');
 const startEl = document.getElementById('start');
+const questionEl = document.getElementById('question');
+const answersDiv = document.getElementById('answers');
+const questionResult = document.getElementById('question-result');
+const timerEl = document.getElementById('timer');
+const questionsSec = document.getElementById('questions');
+const quizEndSec = document.getElementById('quiz-end');
+const scoresSec = document.getElementById('high-scores');
+const scoreLink = document.getElementById('view-scores');
 
-// When start button is clicked, clear the intro section text, start timer, and show questions
-startEl.addEventListener("click", function() {
-    introSec.innerHTML = '';
-    showQuestions();
-    setTime();
-});
+// Variables for quiz functionality
+let questionIndex = 0;
+let secondsLeft = 75;
+let score = 0;
 
 // QUESTIONS
 const questions = [
@@ -63,16 +69,17 @@ const questions = [
     }
 ];
 
-// Grab HTML elements for displaying questions, answers, and correct/incorrect
-const questionEl = document.getElementById('question');
-const answersDiv = document.getElementById('answers');
-const questionResult = document.getElementById('question-result');
+// When View Highscores is clicked, show high scores
+scoreLink.addEventListener('click', showScores);
 
-let questionIndex = 0;
-let secondsLeft = 75;
-let score = 0;
+// When start button is clicked, clear the intro section text, start timer, and show questions
+startEl.addEventListener('click', function() {
+    introSec.innerHTML = '';
+    showQuestions();
+    setTime();
+});
 
-// Display questions one at a time
+// SHOW QUESTIONS
 function showQuestions() {
     // Clear previous answer HTML elements
     answersDiv.innerHTML = '';
@@ -90,10 +97,11 @@ function showQuestions() {
         answersDiv.appendChild(answerEl);
     }
 
+    // When answers div is clicked, check answer
     answersDiv.addEventListener('click', checkAnswer);
 }
 
-// Check whether chosen answer is correct, update time accordingly, progress to next question
+// CHECK SELECTED ANSWER
 function checkAnswer(event) {
     // Create variable for the element the user clicked
     let clickedEl = event.target;
@@ -127,9 +135,6 @@ function checkAnswer(event) {
 }
 
 // TIMER
-// Grab HTML element for timer
-const timerEl = document.getElementById('timer');
-
 function setTime() {
     let timerInterval = setInterval(function() {
         // If user finished with seconds remaining or time has run out, end the quiz, otherwise decrement timer
@@ -144,30 +149,29 @@ function setTime() {
 }
 
 // END QUIZ
-// Grab HTML elements for questions and quiz end sections
-const questionsSec = document.getElementById('questions');
-const quizEndSec = document.getElementById('quiz-end');
-
-// Stop the timer, clear out questions section, display quiz end section
 function endQuiz(timer) {
+    // Stop the timer
     clearInterval(timer);
 
+    // Clear out questions section
     questionsSec.innerHTML = '';
 
+    // Display quiz end section
     quizEndSec.innerHTML =
         `<p>All done!</p>
         <p>Your final score is ${ score }</p>
         <label for="initials">Enter your initials here:</label>
         <input type="text" id="initials">
-        <button class="submit">Submit</button>`;
+        <button id="submit">Submit</button>`;
 
+    // Store score
     storeScore();
 }
 
 // STORE SCORES
 function storeScore() {
     // Grab the submit button HTML element
-    const submitButton = document.querySelector('.submit');
+    const submitButton = document.getElementById('submit');
 
     // Get high scores from local storage and parse the object
     let highScores = JSON.parse(localStorage.getItem('highScores'));
@@ -180,7 +184,7 @@ function storeScore() {
     // When submit button is clicked
     submitButton.addEventListener('click', function() {
         // Grab the initials entered
-        let initials = document.querySelector("#initials").value;
+        let initials = document.querySelector('#initials').value;
 
         // Create an object with the initials and score
         const highScore = {
@@ -206,6 +210,8 @@ function storeScore() {
 
         // Stringify new high scores array and put in local storage
         localStorage.setItem('highScores', JSON.stringify(highScores));
+
+        // Show scores
         showScores();
     });
 }
@@ -220,9 +226,7 @@ function showScores() {
     questionsSec.innerHTML = '';
     quizEndSec.innerHTML = '';
     
-    // Grab HTML section for high scores and insert HTML element skeleton
-    const scoresSec = document.getElementById('high-scores');
-
+    // Insert HTML element skeleton into high-scores section
     scoresSec.innerHTML =
         `<h1>High Scores</h1>
         <ol id='scores-list'></ol>
@@ -253,12 +257,8 @@ function showScores() {
     clearButton.addEventListener('click', clearScores);
 }
 
+// CLEAR SCORES
 function clearScores() {
     localStorage.clear();
     showScores();
 }
-
-// Grab view scores in nav and show scores when clicked
-const scoreLink = document.getElementById('view-scores');
-
-scoreLink.addEventListener('click', showScores);

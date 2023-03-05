@@ -69,7 +69,7 @@ const questions = [
     }
 ];
 
-// When View Highscores is clicked, show high scores
+// When View High Scores is clicked, show high scores
 scoreLink.addEventListener('click', showScores);
 
 // When start button is clicked, clear the intro section text, start timer, and show questions
